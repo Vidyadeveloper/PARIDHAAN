@@ -23,16 +23,17 @@ const path = require("path");
 const mongoose = require("mongoose");
 const app = express();
 app.use(express.json());  
-const prodUrls = [
-  https://id-preview--3c52ef72-55a2-4d1b-97a9-e192c21b3cdc.lovable.app,https://lovable.dev,https://id-preview--f23c2695-2b3f-4a72-8906-1abb7a82913e.lovable.app,https://lovable.dev
-];
+
+const prodUrls = process.env.PRODUCTION_URL
+  ? process.env.PRODUCTION_URL.split(",").map(u => u.trim())
+  : [];
 
 app.use(
   cors({
     origin: [
       process.env.DEV_URL,
       ...prodUrls,
-      "null",
+      "null"
     ],
     credentials: true,
   })
